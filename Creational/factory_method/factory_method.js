@@ -15,6 +15,7 @@
 class Ink {
   constructor(color) {
     this.color = color;
+    this.create();
   }
 
   create() {
@@ -36,33 +37,30 @@ class BlackInk extends Ink {
   }
 }
 
-// класс Создатель
+// класс Создатель - фабрика
 class CreatorInk {
-  constructor(ink) {
-    this.ink = ink;
-  }
-
-  factoryMethod() {
-    this.ink.create();
-  }
+  factoryMethod() {}
 }
 
 // дочерний класс - создатель Продукта А
 class CreatorBlueInk extends CreatorInk {
-  constructor() {
-    super(new BlueInk());
+  factoryMethod() {
+    return new BlueInk();
   }
 }
 
 // дочерний класс - создатель Продукта Б
 class CreatorBlackInk extends CreatorInk {
-  constructor() {
-    super(new BlackInk());
+  factoryMethod() {
+    return new BlackInk();
   }
 }
 
 // An array of creators
-const creators = [new CreatorBlueInk(), new CreatorBlackInk()];
+const creators = [
+  new CreatorBlueInk(),
+  new CreatorBlackInk()
+];
 
 // Iterate over creators and create products
 for (let creator of creators) {
