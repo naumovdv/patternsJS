@@ -20,49 +20,39 @@ class Ink {
 
   create() {
     console.warn(`Create ink with color: ${this.color}`);
+    return this;
   }
 }
 
-// дочерний класс - синие чернила
-class BlueInk extends Ink {
-  constructor() {
-    super("blue");
-  }
-}
-
-// дочерний класс - черные чернила
-class BlackInk extends Ink {
-  constructor() {
-    super("black");
-  }
-}
-
-// класс Создатель - фабрика
-class CreatorInk {
+class FactoryInk {
   factoryMethod() {}
 }
 
-// дочерний класс - создатель Продукта А
-class CreatorBlueInk extends CreatorInk {
+// дочерний класс - создатель синих чернил
+class FactoryBlueInk extends FactoryInk {
   factoryMethod() {
-    return new BlueInk();
+    return new Ink("blue");
   }
 }
 
-// дочерний класс - создатель Продукта Б
-class CreatorBlackInk extends CreatorInk {
+// дочерний класс - создатель черных чернил
+class FactoryBlackInk extends FactoryInk {
   factoryMethod() {
-    return new BlackInk();
+    return new Ink("black");
   }
 }
+
+const inks = [];
 
 // An array of creators
-const creators = [
-  new CreatorBlueInk(),
-  new CreatorBlackInk()
+const creatorsInks = [
+  new FactoryBlueInk(),
+  new FactoryBlackInk()
 ];
 
 // Iterate over creators and create products
-for (let creator of creators) {
-  creator.factoryMethod();
+for (let creator of creatorsInks) {
+  inks.push(creator.factoryMethod());
 }
+
+console.warn("inks", inks);

@@ -11,10 +11,10 @@
 //    типов создаваемых новых объектов.
 //  - когда необходимо создать семейства или группы
 //    взаимосвязанных объектов исключая возможность
-//    одновременного использования объектов из разных этих 
+//    одновременного использования объектов из разных этих
 //    наборов в одном контексте.
 
-// Плюсы: 
+// Плюсы:
 //   - изолирует конкретные классы;
 //   - упрощает замену семейств продуктов;
 //   - гарантирует сочетаемость продуктов.
@@ -30,18 +30,7 @@ class Ink {
 
   create() {
     console.warn(`Create ink with color: ${this.color}`);
-  }
-}
-
-class BlueInk extends Ink {
-  constructor() {
-    super("blue")
-  }
-}
-
-class BlackInk extends Ink {
-  constructor() {
-    super("black");
+    return this;
   }
 }
 
@@ -55,62 +44,49 @@ class Body {
   }
 }
 
-class BlueBody extends Body {
-  constructor() {
-    super("blue")
-  }
-}
-
-class BlackBody extends Body {
-  constructor() {
-    super("black");
-  }
-}
-
 // класс Ручка - абстрактная фабрика
 class Pen {
-  constructor(ink, body) {
-    this.ink = ink;
-    this.body = body;
-
-    this.createInk();
-    this.createBody();
-
-    console.warn("Pen Created");
-    console.warn("-----------");
-    
-  }
-
-  createInk() {
-    this.ink.create();
-  };
-
-  createBody() {
-    this.body.create();
-  };
+  create(){}
 }
 
 class BluePen extends Pen {
   constructor() {
+    super();
     console.warn("Blue Pen Create");
-    
-    super(
-      new BlueInk(),
-      new BlueBody()
-    );
+    this.ink = new Ink("blue");
+    this.body = new Body("blue");
+  }
+
+  create() {
+    this.ink.create();
+    this.body.create();
+    return this;
   }
 }
 
 class BlackPen extends Pen {
   constructor() {
+    super();
     console.warn("Black Pen Create");
+    this.ink = new Ink("black");
+    this.body = new Body("black");
+  }
 
-    super(
-      new BlackInk(), 
-      new BlackBody()
-    );
+  create() {
+    this.ink.create();
+    this.body.create();
+    return this;
   }
 }
 
-const bluePen = new BluePen();
-const blackPen = new BlackPen();
+pens = [];
+creatorsPen = [ 
+  new BluePen(), 
+  new BlackPen()
+];
+
+for (let creator of creatorsPen) {
+  pens.push(creator.create());
+}
+
+console.warn("pens", pens);
